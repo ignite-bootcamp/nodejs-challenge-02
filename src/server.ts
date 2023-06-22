@@ -1,11 +1,10 @@
 import fastify from 'fastify'
 import { env } from './env'
+import { mealsRoutes } from './routes/meals'
 
 const app = fastify()
 
-app.get('/', async () => {
-  return { hello: 'world ' }
-})
+app.register(mealsRoutes, { prefix: '/meals' })
 
 const start = async () => {
   try {
