@@ -8,7 +8,7 @@ import fastifyCookie from '@fastify/cookie'
 const app = fastify()
 
 app.register(fastifyCookie)
-app.register(mealsRoutes, { prefix: '/meals' })
+app.register(mealsRoutes, { prefix: 'meals' })
 
 const start = async () => {
   try {

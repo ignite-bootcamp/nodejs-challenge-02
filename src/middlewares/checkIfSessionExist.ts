@@ -7,7 +7,7 @@ export function checkIfSessionExist(
   const userId = request.cookies.userId
 
   if (!userId) {
-    reply.status(401).send({
+    return reply.status(401).send({
       error: 'Unauthorized',
     })
   }
