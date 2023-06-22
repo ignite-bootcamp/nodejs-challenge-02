@@ -3,9 +3,11 @@ import 'dotenv/config'
 
 import { env } from './env'
 import { mealsRoutes } from './routes/meals'
+import fastifyCookie from '@fastify/cookie'
 
 const app = fastify()
 
+app.register(fastifyCookie)
 app.register(mealsRoutes, { prefix: '/meals' })
 
 const start = async () => {
