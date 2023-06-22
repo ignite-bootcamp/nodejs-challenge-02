@@ -1,4 +1,6 @@
 import fastify from 'fastify'
+import 'dotenv/config'
+
 import { env } from './env'
 import { mealsRoutes } from './routes/meals'
 
