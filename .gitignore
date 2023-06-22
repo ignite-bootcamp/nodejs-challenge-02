@@ -1,4 +1,5 @@
 node_modules
 build
 .env
-db/*.db
+prisma/db/*.db
+prisma/db/*.db-journal
