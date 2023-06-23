@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto'
 import { z } from 'zod'
 import { prisma } from '../database/prisma'
 import { checkIfSessionExist } from '../middlewares/checkIfSessionExist'
+import { calculateMealStreak } from '../utils/calculateMealStreak'
 
 export async function mealsRoutes(app: FastifyInstance) {
   app.get(
@@ -44,6 +45,37 @@ export async function mealsRoutes(app: FastifyInstance) {
       meal,
     }
   })
+
+  app.get(
+    '/statistics',
+    { preHandler: [checkIfSessionExist] },
+    async (request) => {
+      const { userId } = request.cookies
+
+      const totalMeals = await prisma.meal.count({
+        where: { userId },
+      })
+      const totalMealsOnDiet = await prisma.meal.count({
+        where: { userId, isOnDiet: true },
+      })
+      const totalMealsOffDiet = await prisma.meal.count({
+        where: { userId, isOnDiet: false },
+      })
+      const mealsOnDiet = await prisma.meal.findMany({
+        where: { userId },
+        orderBy: { date: 'asc' },
+      })
+
+      const mealsOnDietStreak = await calculateMealStreak(mealsOnDiet)
+
+      return {
+        totalMeals,
+        totalMealsOnDiet,
+        totalMealsOffDiet,
+        mealsOnDietStreak,
+      }
+    },
+  )
 
   app.post('/', async (request, reply) => {
     const createMealSchema = z.object({
