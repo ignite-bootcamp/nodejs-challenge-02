@@ -1,5 +1,8 @@
 node_modules
 build
+
 .env
+.env.test
+
 prisma/db/*.db
 prisma/db/*.db-journal

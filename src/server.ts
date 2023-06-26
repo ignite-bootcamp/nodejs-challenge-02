@@ -1,11 +1,10 @@
 import fastify from 'fastify'
-import 'dotenv/config'
 
 import { env } from './env'
 import { mealsRoutes } from './routes/meals'
 import fastifyCookie from '@fastify/cookie'
 
-const app = fastify()
+export const app = fastify()
 
 app.register(fastifyCookie)
 app.register(mealsRoutes, { prefix: 'meals' })
