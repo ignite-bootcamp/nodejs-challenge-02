@@ -180,4 +180,13 @@ describe('/meals', () => {
 
     expect(emptyListing.body.meals).toHaveLength(0)
   })
+
+  // Response example
+  // {
+  // 	"totalMeals": 9,
+  // 	"totalMealsOnDiet": 6,
+  // 	"totalMealsOffDiet": 3,
+  // 	"mealsOnDietStreak": 5
+  // }
+  it.todo('should return meals statistics', async () => {})
 })
