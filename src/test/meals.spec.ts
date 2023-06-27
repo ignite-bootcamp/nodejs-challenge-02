@@ -153,4 +153,31 @@ describe('/meals', () => {
       }),
     ])
   })
+
+  it('should delete a meal', async () => {
+    const mealDate = new Date().toISOString()
+    const createMealResponse = await supertest(app.server).post('/meals').send({
+      name: 'Hamburguer',
+      description: 'very good hamburguer',
+      date: mealDate,
+      isOnDiet: false,
+    })
+
+    const cookies = createMealResponse.get('Set-Cookie')
+
+    const mealResponse = await supertest(app.server)
+      .get('/meals')
+      .set('Cookie', cookies)
+    const mealId = mealResponse.body.meals[0].id
+
+    await supertest(app.server)
+      .delete(`/meals/${mealId}`)
+      .set('Cookie', cookies)
+
+    const emptyListing = await supertest(app.server)
+      .get('/meals')
+      .set('Cookie', cookies)
+
+    expect(emptyListing.body.meals).toHaveLength(0)
+  })
 })
