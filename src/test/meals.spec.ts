@@ -183,10 +183,51 @@ describe('/meals', () => {
 
   // Response example
   // {
-  // 	"totalMeals": 9,
-  // 	"totalMealsOnDiet": 6,
-  // 	"totalMealsOffDiet": 3,
-  // 	"mealsOnDietStreak": 5
+  // 	"totalMeals": 4,
+  // 	"totalMealsOnDiet": 3,
+  // 	"totalMealsOffDiet": 1,
+  // 	"mealsOnDietStreak": 3
   // }
-  it.todo('should return meals statistics', async () => {})
+  it('should return meals statistics', async () => {
+    const postResponse = await supertest(app.server).post('/meals').send({
+      name: 'Meal 1',
+      description: 'Meal 1',
+      date: new Date().toISOString(),
+      isOnDiet: true,
+    })
+
+    const cookies = postResponse.get('Set-Cookie')
+
+    await supertest(app.server)
+      .post('/meals')
+      .send({
+        name: 'Meal 2',
+        description: 'Meal 2',
+        date: new Date().toISOString(),
+        isOnDiet: true,
+      })
+      .set('Cookie', cookies)
+    await supertest(app.server)
+      .post('/meals')
+      .send({
+        name: 'Meal 3',
+        description: 'Meal 3',
+        date: new Date().toISOString(),
+        isOnDiet: false,
+      })
+      .set('Cookie', cookies)
+
+    const statisticsResponse = await supertest(app.server)
+      .get('/meals/statistics')
+      .set('Cookie', cookies)
+
+    expect(statisticsResponse.body).toEqual(
+      expect.objectContaining({
+        totalMeals: 3,
+        totalMealsOnDiet: 2,
+        totalMealsOffDiet: 1,
+        mealsOnDietStreak: 2,
+      }),
+    )
+  })
 })
