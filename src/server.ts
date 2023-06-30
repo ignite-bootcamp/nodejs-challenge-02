@@ -1,7 +1,6 @@
 import fastify from 'fastify'
 
 import { env } from './env'
-import { mealsRoutes } from './routes/meals'
 import fastifyCookie from '@fastify/cookie'
 import { routes } from './http/routes'
 
@@ -9,7 +8,6 @@ export const app = fastify()
 
 app.register(fastifyCookie)
 app.register(routes)
-app.register(mealsRoutes, { prefix: 'meals' })
 
 const start = async () => {
   try {
