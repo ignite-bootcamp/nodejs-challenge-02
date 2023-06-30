@@ -1,5 +1,6 @@
 import { checkIfSessionExist } from '../middlewares/checkIfSessionExist'
 import { app } from '../server'
+import { create } from './controlers/create'
 import { list } from './controlers/list'
 import { listById } from './controlers/listById'
 import { statistics } from './controlers/statistics'
@@ -12,4 +13,5 @@ export async function routes() {
     { preHandler: [checkIfSessionExist] },
     statistics,
   )
+  app.post('/meals', create)
 }
