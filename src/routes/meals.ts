@@ -1,31 +1,11 @@
 import { FastifyInstance } from 'fastify'
 import { randomUUID } from 'crypto'
 import { z } from 'zod'
-import { prisma } from '../database/prisma'
+import { prisma } from '../lib/prisma'
 import { checkIfSessionExist } from '../middlewares/checkIfSessionExist'
 import { calculateMealStreak } from '../utils/calculateMealStreak'
 
 export async function mealsRoutes(app: FastifyInstance) {
-  app.get(
-    '/',
-    {
-      preHandler: [checkIfSessionExist],
-    },
-    async (request) => {
-      const { userId } = request.cookies
-
-      const meals = await prisma.meal.findMany({
-        where: {
-          userId,
-        },
-      })
-
-      return {
-        meals,
-      }
-    },
-  )
-
   app.get('/:id', { preHandler: [checkIfSessionExist] }, async (request) => {
     const getMealParamsSchema = z.object({
       id: z.string().uuid(),

@@ -10,7 +10,7 @@ import {
 } from 'vitest'
 import { app } from '../server'
 import { execSync } from 'node:child_process'
-import { prisma } from '../database/prisma'
+import { prisma } from '../lib/prisma'
 
 describe('/meals', () => {
   beforeAll(async () => {
