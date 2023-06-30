@@ -1,4 +1,4 @@
-import { checkIfSessionExist } from '../middlewares/checkIfSessionExist'
+import { checkIfSessionExist } from '../http/middlewares/checkIfSessionExist'
 import { app } from '../server'
 import { create } from './controlers/create'
 import { deleteById } from './controlers/delete'

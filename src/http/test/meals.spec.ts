@@ -8,9 +8,9 @@ import {
   afterEach,
   expect,
 } from 'vitest'
-import { app } from '../server'
+import { app } from '../../server'
 import { execSync } from 'node:child_process'
-import { prisma } from '../lib/prisma'
+import { prisma } from '../../lib/prisma'
 
 describe('/meals', () => {
   beforeAll(async () => {
