@@ -6,26 +6,6 @@ import { checkIfSessionExist } from '../middlewares/checkIfSessionExist'
 import { calculateMealStreak } from '../utils/calculateMealStreak'
 
 export async function mealsRoutes(app: FastifyInstance) {
-  app.get('/:id', { preHandler: [checkIfSessionExist] }, async (request) => {
-    const getMealParamsSchema = z.object({
-      id: z.string().uuid(),
-    })
-
-    const { id } = getMealParamsSchema.parse(request.params)
-    const { userId } = request.cookies
-
-    const meal = await prisma.meal.findFirst({
-      where: {
-        id,
-        userId,
-      },
-    })
-
-    return {
-      meal,
-    }
-  })
-
   app.get(
     '/statistics',
     { preHandler: [checkIfSessionExist] },
